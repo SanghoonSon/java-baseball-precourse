@@ -1,7 +1,6 @@
 package baseball.domain.answer;
 
 import baseball.domain.answer.exception.NotValidAnswerNumbers;
-import baseball.global.random.RandomNumberFetchStrategy;
 import baseball.global.random.RandomNumberGenerator;
 
 import java.util.ArrayList;
@@ -18,13 +17,8 @@ public abstract class AnswerFactory {
         return Answer.of(numbers);
     }
 
-    public static Answer of(RandomNumberFetchStrategy strategy, int digits) {
-        validateInputNumberDigits(digits);
-        List<Integer> randomNumbers = new ArrayList<>();
-        for(int i = 0; i < digits; i++) {
-            int randomNumber = RandomNumberGenerator.createBy(strategy);
-            randomNumbers.add(randomNumber);
-        }
+    public static Answer of() {
+        List<Integer> randomNumbers = RandomNumberGenerator.createRandomNumbers();
         return Answer.of(randomNumbers);
     }
 
@@ -44,12 +38,6 @@ public abstract class AnswerFactory {
     private static void validateInputNumbersIsNumeric(char number) {
         if(number < 48 || number > 57) {
             throw new NotValidAnswerNumbers("숫자만 입력이 가능합니다.");
-        }
-    }
-
-    private static void validateInputNumberDigits(int digits) {
-        if(digits < 0) {
-            throw new IllegalArgumentException("자리수는 1이상이어야 합니다.");
         }
     }
 }
