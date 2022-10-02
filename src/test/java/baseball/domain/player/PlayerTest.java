@@ -24,12 +24,14 @@ class PlayerTest {
             Answer answer = AnswerFactory.of();
 
             // when
-            Player player = Player.of(answer);
+            Player offense = Player.offense();
+            Player defence = Player.defence(answer);
 
             // then
             assertAll(
-                    () -> assertNotNull(player, "플레이어가 정상 생성되어야 하므로 NULL이 될 수 없습니다."),
-                    () -> assertNotNull(player.getAnswer(), "Player가 가진 answer은 NULL이 될 수 없습니다.")
+                    () -> assertNotNull(offense, "공격수가 정상 생성되어야 하므로 NULL이 될 수 없습니다."),
+                    () -> assertNotNull(defence, "수비수가 정상 생성되어야 하므로 NULL이 될 수 없습니다."),
+                    () -> assertNotNull(defence.getAnswer(), "수비수가 가진 answer은 NULL이 될 수 없습니다.")
             );
         }
     }

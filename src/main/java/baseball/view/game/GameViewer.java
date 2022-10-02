@@ -37,8 +37,8 @@ public class GameViewer {
     }
 
     private Players createPlayers() {
-        Player offensePlayer = Player.of(AnswerFactory.of());
-        Player defencePlayer = Player.of(AnswerFactory.of());
+        Player offensePlayer = Player.offense();
+        Player defencePlayer = Player.defence(AnswerFactory.of());
         return Players.of(offensePlayer, defencePlayer);
     }
 

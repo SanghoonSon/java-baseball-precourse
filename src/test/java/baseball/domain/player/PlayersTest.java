@@ -61,6 +61,6 @@ class PlayersTest {
 
     private Player createPlayer() {
         Answer answer = AnswerFactory.of();
-        return Player.of(answer);
+        return Player.defence(answer);
     }
 }

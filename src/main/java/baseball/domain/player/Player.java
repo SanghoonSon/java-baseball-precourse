@@ -10,7 +10,11 @@ public class Player {
         this.answer = answer;
     }
 
-    public static Player of(Answer answer) {
+    public static Player offense() {
+        return new Player(null);
+    }
+
+    public static Player defence(Answer answer) {
         return new Player(answer);
     }
 
