@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,7 +63,7 @@ class GameTest {
                 // given
                 Players players = createPlayers();
                 Game game = Game.of(createPlayers(), Umpire.create());
-                List<Integer> offensePlayerAnswerNumber = players.getOffensePlayer().getAnswer().getNumbers();
+                List<Integer> offensePlayerAnswerNumber = Arrays.asList(1, 2, 3);
 
                 // when
                 JudgmentResults judgmentResults = game.play(offensePlayerAnswerNumber);
