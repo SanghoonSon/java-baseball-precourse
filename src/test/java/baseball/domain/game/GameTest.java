@@ -4,6 +4,7 @@ import baseball.domain.answer.AnswerFactory;
 import baseball.domain.player.Player;
 import baseball.domain.player.Players;
 import baseball.domain.umpire.JudgmentResults;
+import baseball.domain.umpire.Umpire;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,13 +21,14 @@ class GameTest {
     class StaticOfTest {
 
         @Test
-        @DisplayName("players가 주어지면 생성 된 Game 리턴")
+        @DisplayName("players, umpire가 주어지면 생성 된 Game 리턴")
         void create_game_with_players_test() {
             // given
             Players players = createPlayers();
+            Umpire umpire = Umpire.create();
 
             // when
-            Game game = Game.of(players);
+            Game game = Game.of(players, umpire);
 
             // then
             assertNotNull(game, "정상 생성되어야하므로 NULL일수 없습니다.");
@@ -37,10 +39,11 @@ class GameTest {
         void create_game_with_null_players_test() {
             // when
             Players players = null;
+            Umpire umpire = Umpire.create();
 
             // when && then
             assertThrows(IllegalArgumentException.class,
-                    () -> Game.of(players),
+                    () -> Game.of(players, umpire),
                     "players가 없으므로 예외 처리 되어야합니다.");
         }
     }
@@ -58,7 +61,7 @@ class GameTest {
             void game_play_test() {
                 // given
                 Players players = createPlayers();
-                Game game = Game.of(players);
+                Game game = Game.of(createPlayers(), Umpire.create());
                 List<Integer> offensePlayerAnswerNumber = players.getOffensePlayer().getAnswer().getNumbers();
 
                 // when
@@ -72,9 +75,11 @@ class GameTest {
             @DisplayName("3스트라이크면 게임 종료")
             void game_has_next_turn_if_three_strike_test() {
                 // given
-                Players players = createPlayers();
-                Game game = Game.of(players);
-                List<Integer> defencePlayerAnswerNumber = players.getDefencePlayer().getAnswer().getNumbers();
+                Game game = createGame();
+                List<Integer> defencePlayerAnswerNumber = game.getPlayers()
+                        .getDefencePlayer()
+                        .getAnswer()
+                        .getNumbers();
 
                 // when
                 game.play(defencePlayerAnswerNumber);
@@ -89,5 +94,9 @@ class GameTest {
         Player offensePlayer = Player.offense();
         Player defencePlayer = Player.defence(AnswerFactory.of());
         return Players.of(offensePlayer, defencePlayer);
+    }
+
+    private Game createGame() {
+        return Game.of(createPlayers(), Umpire.create());
     }
 }

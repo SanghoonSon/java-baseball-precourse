@@ -25,4 +25,19 @@ public class Answer {
     public List<Integer> getNumbers() {
         return this.numbers;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Answer answer = (Answer) o;
+
+        return numbers.equals(answer.numbers);
+    }
+
+    @Override
+    public int hashCode() {
+        return numbers.hashCode();
+    }
 }

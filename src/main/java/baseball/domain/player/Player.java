@@ -21,4 +21,19 @@ public class Player {
     public Answer getAnswer() {
         return answer;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        return answer.equals(player.answer);
+    }
+
+    @Override
+    public int hashCode() {
+        return answer.hashCode();
+    }
 }

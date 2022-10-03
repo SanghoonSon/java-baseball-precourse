@@ -19,8 +19,8 @@ public class JudgmentResults {
     }
 
     public void add(JudgmentResult result) {
-        int addCount = getHitCount(result);
-        results.put(result, addCount + 1);
+        int hitCount = getHitCount(result);
+        results.put(result, hitCount + 1);
     }
 
     @Override
@@ -55,5 +55,20 @@ public class JudgmentResults {
             output.append(" ");
         }
         output.append(hitCount).append(judgmentResult.getDetails());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JudgmentResults that = (JudgmentResults) o;
+
+        return results.equals(that.results);
+    }
+
+    @Override
+    public int hashCode() {
+        return results.hashCode();
     }
 }

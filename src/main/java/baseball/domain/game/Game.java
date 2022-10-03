@@ -18,12 +18,10 @@ public class Game {
         this.hasNextTurn = true;
     }
 
-    public static Game of(Players players) {
+    public static Game of(Players players, Umpire umpire) {
         if(players == null) {
             throw new IllegalArgumentException("Players는 필수값입니다.");
         }
-
-        Umpire umpire = Umpire.create();
         return new Game(players, umpire);
     }
 
@@ -31,8 +29,12 @@ public class Game {
         return this.hasNextTurn;
     }
 
+    public Players getPlayers() {
+        return this.players;
+    }
+
     public JudgmentResults play(List<Integer> offensePlayerAnswerNumber) {
-        List<Integer> defencePlayerAnswerNumbers = this.players.getDefencePlayer().getAnswer().getNumbers();
+        List<Integer> defencePlayerAnswerNumbers = getPlayers().getDefencePlayer().getAnswer().getNumbers();
         JudgmentResults judgmentResults = this.umpire.judge(offensePlayerAnswerNumber, defencePlayerAnswerNumbers);
         if(judgmentResults.isAllStrike()) {
             endGame();
@@ -43,5 +45,23 @@ public class Game {
 
     private void endGame() {
         this.hasNextTurn = false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Game game = (Game) o;
+
+        if (!players.equals(game.players)) return false;
+        return umpire.equals(game.umpire);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = players.hashCode();
+        result = 31 * result + umpire.hashCode();
+        return result;
     }
 }
