@@ -8,21 +8,16 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class ConsoleViewer {
-    public static final String PATTERN_ONLY_NUMBERS;
-
-    static {
-        PATTERN_ONLY_NUMBERS = "-?\\d+(\\.\\d+)?";
-    }
 
     public List<Integer> inputPlayerNumbers() {
-        System.out.print(ConsoleViewerConst.PLAYER_INPUT_NUMBER_DISPLAY);
+        System.out.print(ConsoleViewerMessage.PLAYER_INPUT_NUMBER_DISPLAY);
         String playerNumbers = Console.readLine();
         validatePlayerNumbers(playerNumbers);
         return convertToIntList(playerNumbers);
     }
 
     public String inputRestartNumber() {
-        System.out.print(ConsoleViewerConst.RESTART_OR_END_GAME_DISPLAY);
+        System.out.print(ConsoleViewerMessage.RESTART_OR_END_GAME_DISPLAY);
         String restartNumber = Console.readLine();
         validateRestartNumber(restartNumber);
         return restartNumber;
@@ -31,42 +26,50 @@ public class ConsoleViewer {
     public void outputJudgmentResults(JudgmentResults judgmentResults) {
         System.out.println(judgmentResults);
         if(judgmentResults.isAllStrike()) {
-            System.out.println(ConsoleViewerConst.PLAYER_ALL_STRIKE_DISPLAY);
+            System.out.println(ConsoleViewerMessage.PLAYER_ALL_STRIKE_DISPLAY);
         }
     }
 
     private void validatePlayerNumbers(String inputNumbers) {
         validatedIsNumericInputValue(inputNumbers);
-        validateIsValidInputValueLength(inputNumbers, ConsoleViewerConst.PLAYER_INPUT_NUMBER_MAX_LENGTH);
+        validateIsValidInputValueLength(inputNumbers, ConsoleViewerProperties.PLAYER_INPUT_NUMBER_MAX_LENGTH);
     }
 
     private void validateRestartNumber(String restartNumber) {
         validatedIsNumericInputValue(restartNumber);
-        validateIsValidInputValueLength(restartNumber, ConsoleViewerConst.RESTART_NUMBER_MAX_LENGTH);
+        validateIsValidInputValueLength(restartNumber, ConsoleViewerProperties.RESTART_NUMBER_MAX_LENGTH);
         validateIsRestartOrEndGameNumber(restartNumber);
     }
 
     private void validatedIsNumericInputValue(String inputValue) {
         if(!isNumeric(inputValue)) {
-            throw new IllegalArgumentException(ConsoleViewerConst.ERROR_INPUT_VALUE_IS_NOT_NUMBER);
+            throw new IllegalArgumentException(
+                    ConsoleViewerMessage.ERROR_INPUT_VALUE_IS_NOT_NUMBER.getMessage()
+            );
         }
     }
 
     private boolean isNumeric(String inputValue) {
-        return Pattern.matches(PATTERN_ONLY_NUMBERS, inputValue);
+        return Pattern.matches(ConsoleViewerProperties.PATTERN_ONLY_NUMBERS, inputValue);
     }
 
     private void validateIsValidInputValueLength(String inputValue, int length) {
         if(inputValue.length() != length) {
-            String errorMessage = String.format(ConsoleViewerConst.ERROR_INPUT_VALUE_IS_NOT_LENGTH_FORMAT, length);
+            String errorMessage = String.format(
+                    ConsoleViewerMessage.ERROR_INPUT_VALUE_IS_NOT_LENGTH_FORMAT.getMessage(),
+                    length
+            );
             throw new IllegalArgumentException(errorMessage);
         }
     }
 
     private void validateIsRestartOrEndGameNumber(String restartNumber) {
-        if (Integer.parseInt(restartNumber) != ConsoleViewerConst.RESTART_NUMBER
-                && Integer.parseInt(restartNumber) != ConsoleViewerConst.END_NUMBER) {
-            throw new IllegalArgumentException(ConsoleViewerConst.ERROR_INPUT_VALUE_IS_NOT_RESTART_NUMBERS);
+        int restartNumberAsInt = Integer.parseInt(restartNumber);
+        if (restartNumberAsInt != ConsoleViewerProperties.RESTART_NUMBER
+                && restartNumberAsInt != ConsoleViewerProperties.END_NUMBER) {
+            throw new IllegalArgumentException(
+                    ConsoleViewerMessage.ERROR_INPUT_VALUE_IS_NOT_RESTART_NUMBERS.getMessage()
+            );
         }
     }
 
